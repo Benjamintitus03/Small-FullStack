@@ -22,6 +22,8 @@ label {
   padding: 5px 25px 15px;
   width: 50%;
   border-radius: 8%;
+  text-align: center;
+  border: 5px solid black;
 }
 
 .login h2, .register h2 {
@@ -32,15 +34,14 @@ label {
 
 .login button, .register button {
   position: relative;
-  width: 100px;
-  box-width: 
+  width: 25%;
   margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 5px 15px;
+  text-align: center;
 }
 
-.textin {
-  width: 50%;
-  margin: 0 auto;
-}
 
 
 
