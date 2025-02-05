@@ -1,0 +1,48 @@
+body {
+  background: #226;
+  color: #822;
+  padding: 25px;
+  font-family: sans-serif;
+  width: fill;
+}
+
+h2 {
+  color: #fff;
+  width: 50%;
+  margin: 20px auto;
+}
+
+label {
+  color: #aaa;
+}
+
+.login, .register{
+  background: #229;
+  margin: 0 auto;
+  padding: 5px 25px 15px;
+  width: 50%;
+  border-radius: 8%;
+}
+
+.login h2, .register h2 {
+  color: gold;
+  width: 25%;
+  margin: 20px auto;
+}
+
+.login button, .register button {
+  position: relative;
+  width: 100px;
+  box-width: 
+  margin: 0 auto;
+}
+
+.textin {
+  width: 50%;
+  margin: 0 auto;
+}
+
+
+
+
+
