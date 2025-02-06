@@ -1,49 +1,37 @@
+
 body {
-  background: #226;
-  color: #822;
-  padding: 25px;
-  font-family: sans-serif;
-  width: fill;
-}
-
-h2 {
-  color: #fff;
-  width: 50%;
-  margin: 20px auto;
-}
-
-label {
-  color: #aaa;
-}
-
-.login, .register{
-  background: #229;
+  font-family: Arial, sans-serif;
+  max-width: 400px;
   margin: 0 auto;
-  padding: 5px 25px 15px;
-  width: 50%;
-  border-radius: 8%;
+  padding: 20px;
+  }
+.form-container {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 5px;
+}
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 15px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+button {
+   background-color: #4CAF50;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+}
+button:hover {
+  background-color: #45a049;
+}
+.switch-form {
   text-align: center;
-  border: 5px solid black;
+  margin-top: 15px;
 }
-
-.login h2, .register h2 {
-  color: gold;
-  width: 25%;
-  margin: 20px auto;
-}
-
-.login button, .register button {
-  position: relative;
-  width: 25%;
-  margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  padding: 5px 15px;
-  text-align: center;
-}
-
-
-
-
-
 
