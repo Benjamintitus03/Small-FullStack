@@ -1,8 +1,8 @@
 <?php
 $inData = getRequestInfo();
 
-// Connect to the database (need to find out if we have a user credential to connect to it first...)
-$conn = new mysqli("localhost", "root", "KkRzm9FjDZ@g", "contact_manager");
+// Connect to the database (using credentials provided by the database user for the api)
+$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "contact_manager");
 // Check if the connection was successful
 if ($conn->connect_error)
 {
