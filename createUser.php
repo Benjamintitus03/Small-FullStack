@@ -1,8 +1,9 @@
+
 <?php
 $inData = getRequestInfo();
 
 // Connect to the database (need to find out if we have a user credential to connect to it first...)
-$conn = new mysqli("localhost", "root", "KkRzm9FjDZ@g", "contact_manager");
+$conn = new mysqli("localhost", "root", "passwordplaceholder", "contact_manager");
 // Check if the connection was successful
 if ($conn->connect_error)
 {
@@ -28,7 +29,7 @@ else
         $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
         $stmt->bind_param("ss", $inData["username"], $inData["password"]);
 
-        if ($stmt->execute())
+        if ($stmt->execute()) 
         {
             returnWithSuccess("Account created successfully!");
         }
