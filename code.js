@@ -69,7 +69,7 @@ function doRegister() {
           document.getElementById("registerResult").innerHTML = jsonObject.error;
         } else {
           alert(jsonObject.message);
-          window.location.href = "index.html"; // Redirect to login
+          window.location.href = "UpdateContact.html"; // Redirect to login
         }
       }
     };
