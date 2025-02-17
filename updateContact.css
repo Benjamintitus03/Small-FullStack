@@ -1,4 +1,6 @@
-/* Registration Page Styles */
+/* UpdateCONtact CSS so that the user can update the info on their screen
+Will borrow code from other CSS/HTML  pages, and update them to include more
+buttons/textfileds for user INput. */
 body {
     font-family: Arial, sans-serif;
     max-width: 400px;
