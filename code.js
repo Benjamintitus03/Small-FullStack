@@ -1,5 +1,5 @@
 // Added eventListener to load up the DOM before other functions get executed.
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () { 
   const urlBase = 'http://proctest.titusknights.help/LAMPAPI';
   const extension = 'php';
 
