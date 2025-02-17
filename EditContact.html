@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <title>Edit Contact</title>
+    <link href = "style.css" rel = "stylesheet"> 
+
+  </head>
+
+
+  <body>
+
+    <div class = "add-contact">
+
+      <h2>Edit Existing Contact</h2>
+
+    <form>
+
+      <div class= "name">
+
+        <label for = "fname">First Name:</label>
+        <input type ="text" id = "fname" required>
+        <br>
+        <label for = "lname">Last Name:</label>
+        <input type ="text" id = "lname" required>
+
+      </div>
+
+      <br>
+
+      <div class = "info">
+
+        <label id = "phone-lable" for = "phone">Phone Number:</label>
+        <input type = "text" id = "phone" pattern = "[0-9]{10}">
+
+        <br>
+
+        <label id = "email-label" for = "email">Email Address: </label>
+        <input type = "text" id = "email">
+
+      </div>
+
+      <br>
+
+      <div class = "buttons">
+        <button type = "button">Confirm</button>
+        <button type = "button">Cancel</button>
+      </div>
+
+    </form>
+
+    </div>
+    
+  </body>
+
+</html>
