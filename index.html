@@ -21,10 +21,24 @@
             <button id="button" class="float-left submit-button">Login</button>
 
             <script type="text/javascript">
+                // Will move this code into code.js script later.
+                // Tweaking button input function for better access.
                 document.getElementById("button").onclick = function () {
-                    location.href = "EditContact.html";
+                  var loginName = document.getElementById("loginName").value;
+                  var loginPassword = document.getElementById("loginPassword").value;
+                  // Prevents reroute of form to same link when button is inside a form.
+                  event.preventDefault();
+                  // Check if both fields are not empty
+                  if (loginName.trim() !== "" && loginPassword.trim() !== "") {
+                    // Redirect to the next page
+                    window.location.href = "EditContact.html";
+                  } else {
+                    // Optionally, alert the user that both fields are required
+                    alert("Please enter both username and password.");
+                  }
                 };
-            </script>
+              </script>
+              
         </form>
         <div id="loginResult"></div>
         <!-- <script>
