@@ -15,8 +15,8 @@
 	else
 	{
         // find all contacts that are contained in the userID's table
-		$stmt = $conn->prepare("SELECT id, name, email FROM contacts WHERE userID=?");
-		$stmt->bind_param("i", $inData["userId"]);
+		$stmt = $conn->prepare("SELECT id, name, email FROM contacts WHERE user_id=?");
+		$stmt->bind_param("i", $inData["userID"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
