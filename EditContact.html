@@ -1,98 +1,38 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
   <title>Edit Contact</title>
+  <script src="MasterCode.js" defer></script>
   <link href="EditContactCSS.css" rel="stylesheet">
-
 </head>
 
-
-<body>
-
+<body onload="readCookie()">
   <div class="add-contact">
-
     <h2>Edit Existing Contact</h2>
-
     <form>
-
       <div class="name">
-
         <label for="fname">First Name:</label>
         <input type="text" id="fname" required>
         <br>
         <label for="lname">Last Name:</label>
         <input type="text" id="lname" required>
-
       </div>
-
-      <br>
 
       <div class="info">
-
-        <label id="phone-label" for="phone">Phone Number:</label>
+        <label for="phone">Phone Number:</label>
         <input type="text" id="phone" pattern="[0-9]{10}">
-
         <br>
-
-        <label id="email-label" for="email">Email Address: </label>
+        <label for="email">Email Address:</label>
         <input type="text" id="email">
-
       </div>
-
-      <br>
 
       <div class="buttons">
-        <button type="button" id="confirmButton" class="float-left submit-button">Confirm</button>
-        <script type="text/javascript">
-          document.getElementById("confirmButton").onclick = function (event) {
-            // Prevent the form's default submission behavior.
-            event.preventDefault();
-        
-            // Get the values from the input fields.
-            var firstName = document.getElementById("fname").value;
-            var lastName = document.getElementById("lname").value;
-            var phoneNumber = document.getElementById("phone").value;
-            var emailAddr = document.getElementById("email").value;
-        
-            // Check if all fields are non-empty (after trimming whitespace).
-            if (
-              firstName.trim() !== "" &&
-              lastName.trim() !== "" &&
-              phoneNumber.trim() !== "" &&
-              emailAddr.trim() !== ""
-            ) {
-              // Redirect to the next page.
-              window.location.href = "register.html";
-            } else {
-              // Alert the user if any field is empty.
-              alert("Please fill in all required fields.");
-            }
-          };
-        </script>
-        
-        <button type="button" id = "cancelButton" class="float-left submit-button">Cancel</button>
-        <script type="text/javascript">
-          var cancelButton_clicked = false;
-          document.getElementById("cancelButton").onclick = function (event) {
-            // Prevent the form's default submission behavior.
-            cancelButton_clicked = true;
-            event.preventDefault();
-            // Check if all fields are non-empty (after trimming whitespace).
-            if (cancelButton_clicked) {
-              // Redirect to the next page.
-              console.log("Cancel Button was clicked\n");
-              window.location.href = "register.html";
-            }
-          };
-        </script>
+        <button type="button" id="confirmButtonEdit" class="float-left submit-button">Confirm</button>
+        <button type="button" id="cancelButtonEdit" class="float-left submit-button">Cancel</button>
       </div>
-
     </form>
-
   </div>
-
 </body>
 
 </html>
