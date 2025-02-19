@@ -44,9 +44,9 @@
       <br>
 
       <div class="buttons">
-        <button type="button" id="button2" class="float-left submit-button">Confirm</button>
+        <button type="button" id="confirmButton" class="float-left submit-button">Confirm</button>
         <script type="text/javascript">
-          document.getElementById("button2").onclick = function (event) {
+          document.getElementById("confirmButton").onclick = function (event) {
             // Prevent the form's default submission behavior.
             event.preventDefault();
         
@@ -72,7 +72,21 @@
           };
         </script>
         
-        <button type="button">Cancel</button>
+        <button type="button" id = "cancelButton" class="float-left submit-button">Cancel</button>
+        <script type="text/javascript">
+          var cancelButton_clicked = false;
+          document.getElementById("cancelButton").onclick = function (event) {
+            // Prevent the form's default submission behavior.
+            cancelButton_clicked = true;
+            event.preventDefault();
+            // Check if all fields are non-empty (after trimming whitespace).
+            if (cancelButton_clicked) {
+              // Redirect to the next page.
+              console.log("Cancel Button was clicked\n");
+              window.location.href = "register.html";
+            }
+          };
+        </script>
       </div>
 
     </form>
