@@ -288,3 +288,52 @@ function deleteContact(contactId) {
       alert("An error occurred while deleting the contact. Please try again.");
   });
 }
+// ---------------- LOAD CONTACTS ---------------------------------
+function loadContacts() {
+    let url = urlBase + "/loadContacts." + extension;
+    let jsonPayload = JSON.stringify({ user_id: userId });
+
+    fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        body: jsonPayload
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        if (jsonResponse.error) {
+            alert("Error: " + jsonResponse.error);
+            return;
+        }
+
+        let contactList = document.getElementById("contactList");
+        contactList.innerHTML = ""; // Clear the table before loading new contacts
+
+        jsonResponse.results.forEach(contact => {
+            let row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${contact.first_name}</td>
+                <td>${contact.last_name}</td>
+                <td>${contact.phone}</td>
+                <td>${contact.email}</td>
+                <td>
+                <button class="edit-btn" onclick="editContact(${contact.id})">Edit</button>
+                <button class="delete-btn" onclick="deleteContact(${contact.id})">Delete</button>
+                </td>
+
+            `;
+
+            contactList.appendChild(row);
+        });
+
+        if (jsonResponse.results.length === 0) {
+            let noResultsRow = document.createElement("tr");
+            noResultsRow.innerHTML = `<td colspan="5" style="text-align: center;">No contacts found</td>`;
+            contactList.appendChild(noResultsRow);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while loading contacts. Please try again.");
+    });
+}
