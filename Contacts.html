@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Manager</title>
-    <script src="js/MasterCode.js" defer></script>
-    <link rel="stylesheet" href="ContactsCSS.css" />
-  </head>
-  <body>
-    <script src="./js/Mastercode.js"></script>
+    <script src="./js/MasterCode.js" defer></script>
     <link rel="stylesheet" href="./css/ContactsCSS.css">
 </head>
 <body>
 
     <div class="contacts">
-      <div class="top-bar">
-        <input type="text" id="searchBar" placeholder="Search Contact" />
-        <a href="./AddContact.html"><button type="button">Add</button></a>
-        <a href="./index.html"><button type="button" class="logout">Logout</button></a>
-      </div>
-      <div class="table-container">
-        <table id="contactsTable">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Phone Number</th>
-              <th>Email Address</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="contactList">
-            <!-- Contacts will be dynamically added here -->
-          </tbody>
-        </table>
-      </div>
+
+        <!-- Top Bar with Search, Add, and Logout Buttons -->
+        <div class="top-bar">
+            <input type="text" id="searchBar" placeholder="Search Contact">
+            <a href="./AddContact.html">
+                <button type="button">Add</button>
+            </a>
+            <a href="./index.html">
+                <button type="button" class="logout">Logout</button>
+            </a>
+        </div>
+
+        <!-- Table Container (with independent scroll) -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="contactList">
+                    <!-- Contacts will be added here -->
+                </tbody>
+            </table>
+        </div>
+
     </div>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        if (typeof loadContacts === "function") { loadContacts(); }
-        if (typeof SearchBar === "function") { SearchBar(); }
-      });
-    </script>
-  </body>
+
+</body>
 </html>
