@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
+const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
   const extension = "php";
 
   let userId = 0;
@@ -8,69 +8,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ------------------- LOGIN -------------------
 
-  function doLogin() {
+ window.doLogin = function() {
+  userId = 0;
+  firstName = "";
+  lastName = "";
+
+  let login = document.getElementById("loginName").value;
+  let password = document.getElementById("loginPassword").value;
+
+  document.getElementById("loginResult").innerHTML = "";
+
+  let tmp = { login: login, password: password };
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + '/Login.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
   try {
-    // If the page has an element with id="doLogin", attach the click event
-    const loginButton = document.getElementById("loginButton");
+    xhr.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        let jsonObject = JSON.parse(xhr.responseText);
+        userId = jsonObject.id;
 
-    if (loginButton) {
-      loginBtn.onclick = function (event){
-        event.preventDefault(); // avoid form submission / page reload
+        if (userId < 1) {
+          document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+          return;
+        }
 
-        // Reset or not, but let's do it to be sure
-        userId = 0;
-        firstName = "";
-        lastName = "";
-
-        let loginName = document.getElementById("loginName").value;
-        let loginPassword = document.getElementById("loginPassword").value;
-        document.getElementById("loginResult").innerHTML = "";
-
-        // Build the payload
-        let tmp = { login: loginName, password: loginPassword };
-        let url = urlBase + "/Login." + extension;
-
-        console.log("Attempting login fetch to:", url);
-
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json; charset=UTF-8" },
-          body: JSON.stringify(tmp),
-        })
-          .then((response) => response.json())
-          .then((jsonObject) => {
-            console.log("Login response:", jsonObject);
-            userId = jsonObject.id;
-
-            if (userId < 1) {
-              document.getElementById("loginResult").innerHTML =
-                "User/Password combination incorrect";
-              return;
-            }
-
-            // If valid user
-            firstName = jsonObject.firstName;
-            lastName = jsonObject.lastName;
-            saveCookie();
-
-            // Redirect to Contacts.html
-            // (Ensure that file actually exists in the same folder)
-            window.location.href = "Contacts.html";
-          })
-          .catch((err) => {
-            document.getElementById("loginResult").innerHTML =
-              "Error: " + err.message;
-          });
-      };
-    }
+        firstName = jsonObject.firstName;
+        lastName = jsonObject.lastName;
+        saveCookie();
+        window.location.href = "Contacts.html";
+      }
+    };
+    xhr.send(jsonPayload);
   } catch (err) {
-    console.log("doLogin setup encountered error:", err);
+    document.getElementById("loginResult").innerHTML = err.message;
   }
-};
+}
 
   // ------------------- REGISTRATION -------------------
   // This function can be called from a "Register" page or same page, etc.
-  function createUser() {
+  window.doRegister = function() {
     let username = document.getElementById("registerName").value;
     let password = document.getElementById("registerPassword").value;
 
@@ -115,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // ------------------- COOKIE FUNCTIONS -------------------
-  function saveCookie() {
+  window.saveCookie = function() {
     let minutes = 20;
     let date = new Date();
     date.setTime(date.getTime() + minutes * 60 * 1000);
@@ -134,8 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.cookie ="firstName="+firstName+",lastName="+lastName+
     ",userId="+userId + ";expires=" + date.toGMTString() + ";path=/"; // path ensures the cookie is valid site-wide
   }
-  
-  function readCookie() {
+
+   window.readCookie = function() {
     userId = -1;
     let data = document.cookie;
     console.log("readCookie -> current raw cookie data:", data);
@@ -161,8 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "index.html";
     }
   }
-  
-  function doLogout() {
+
+  window.doLogout = function() {
     console.log("Logging out...");
     userId = 0;
     firstName = "";
@@ -176,15 +156,14 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "index.html";
   }
   // -------------- ADD CONTACT --------------------
-  function createContact() {
+  window.createContact = function() {
     // Get the input values for the new contact
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
-    const phone = document.getElementById("phone").value;
     const email = document.getElementById("email").value;
 
-    // Combine first and last name into a full name
-    const fullName = `${firstName} ${lastName}`;
+    const name = `S{firstName} ${lastName}`;
+
 
     // Ensure that user is logged in by checking userId
     if (userId <= 0) {
@@ -195,11 +174,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Create a data object to send to the server
     const contactData = {
       user_id: userId, // User's unique ID (to associate the contact)
-      first_name: firstName, // First name of the contact
-      last_name: lastName, // Last name of the contact
-      full_name: fullName, // Full name (combination of first and last)
-      phone: phone, // Phone number of the contact
-      email: email, // Email of the contact
+      name: name, // First name of the contact
+      email: email, // Phone number of the contact
     };
 
     // Convert the data object to JSON format
@@ -232,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ----------- DELETE CONTACT --------------
-  function deleteContact(contactId) {
+  window.deleteContact = function(contactId) {
     // Ensure that user is logged in by checking userId
     if (userId <= 0) {
       alert("You need to log in to delete contacts.");
@@ -282,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
   // ---------------- LOAD CONTACTS ---------------------------------
-  function loadContacts() {
+  window.loadContacts = function() {
     let url = urlBase + "/loadContacts." + extension;
     let jsonPayload = JSON.stringify({ user_id: userId });
 
@@ -330,7 +306,8 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("An error occurred while loading contacts. Please try again.");
       });
   }
-  function UpdateContact(contactData, row) {
+
+  window.UpdateContact = function(contactData, row) {
     let url = urlBase + "/editContact." + extension;
     let jsonPayload = JSON.stringify(contactData);
 
@@ -370,7 +347,8 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       });
   }
-  function editContact(row, contact) {
+
+  window.editContact = function(row, contact) {
     row.innerHTML = `
     <td><input type = "text" class = "edit-first" value="${contact.first_name}"></td>
     <td><input type = "text" class = "edit-last" value="${contact.last_name}"></td>
@@ -403,7 +381,8 @@ document.addEventListener("DOMContentLoaded", function () {
       UpdateContact(finalUpdate, row);
     });
   }
-  function SearchBar() {
+
+  window.SearchBar = function() {
     const searchBar = document.getElementById("searchBar");
     if (!searchBar) return;
     let debounceTimer;
