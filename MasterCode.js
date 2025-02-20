@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ------------------- LOGIN -------------------
 
-  doLogin() = function () {
+  function doLogin() {
   try {
     // If the page has an element with id="doLogin", attach the click event
     const loginButton = document.getElementById("loginButton");
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ------------------- REGISTRATION -------------------
   // This function can be called from a "Register" page or same page, etc.
-  function () {
+  function createUser() {
     let username = document.getElementById("registerName").value;
     let password = document.getElementById("registerPassword").value;
 
