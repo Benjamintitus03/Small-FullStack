@@ -3,15 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const extension = "php";
 
   let userId = 0;
-  let firstName = "";
-  let lastName = "";
+  let loginName = "";
+  let loginPassword = "";
 
   // ------------------- LOGIN -------------------
 
  window.doLogin = function() {
   userId = 0;
-  firstName = "";
-  lastName = "";
+  loginName = "";
+  loginPassword = "";
 
   let login = document.getElementById("loginName").value;
   let password = document.getElementById("loginPassword").value;
@@ -36,16 +36,18 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        firstName = jsonObject.firstName;
-        lastName = jsonObject.lastName;
-        saveCookie();
+        loginName = jsonObject.loginName;
+        loginPassword = jsonObject.lastPassword;
+        saveSession();
         window.location.href = "Contacts.html";
+        loadContacts();
       }
     };
     xhr.send(jsonPayload);
   } catch (err) {
     document.getElementById("loginResult").innerHTML = err.message;
   }
+
 }
 
   // ------------------- REGISTRATION -------------------
@@ -105,68 +107,83 @@ document.addEventListener("DOMContentLoaded", function () {
    }
 
   // ------------------- COOKIE FUNCTIONS -------------------
-  window.saveCookie = function() {
-    let minutes = 20;
-    let date = new Date();
-    date.setTime(date.getTime() + minutes * 60 * 1000);
+ /*
+ window.saveCookie = function() {
+        let minutes = 20;
+        let date = new Date();
+        date.setTime(date.getTime() + minutes * 60 * 1000);
 
-    // For debugging, let's log out what we're setting
-    console.log(
-      "Saving cookie with userId:",
-      userId,
-      " Name:",
-      firstName,
-      lastName
-    );
+        let sessionData = `userId=${userId},username=${loginName},password=${loginPassword}`;
+        document.cookie = `sessionData=${encodeURIComponent(sessionData)};expires=${date.toGMTString()};path=/`;
 
-    // Optionally, add "; path=/" or a domain if needed
-    // e.g. "; path=/; domain=proctest.titusknights.help"
-    document.cookie ="firstName="+firstName+",lastName="+lastName+
-    ",userId="+userId + ";expires=" + date.toGMTString() + ";path=/"; // path ensures the cookie is valid site-wide
-  }
+        console.log("Saving cookie with userId:", userId, " Username:", loginName);
+        }
 
-   window.readCookie = function() {
-    userId = -1;
-    let data = document.cookie;
-    console.log("readCookie -> current raw cookie data:", data);
-    // Extract the sessionData cookie using a regex
-    let theyMatch = data.match(/(?:^|; )sessionData=([^;]*)/);
-    if (theyMatch) {
-      let cookieValue = decodeURIComponent(match[1]);
-      let splits = cookieValue.split(",");
-      for (let i = 0; i < splits.length; i++) {
-        let thisOne = splits[i].trim();
-        let tokens = thisOne.split("=");
-        if (tokens[0] === "firstName")
-          firstName = tokens[1];
-        else if (tokens[0] === "lastName")
-          lastName = tokens[1];
-        else if (tokens[0] === "userId")
-          userId = parseInt(tokens[1].trim());
-      }
-    }
-    console.log("After parse, userId =", userId);
-    if (userId < 0) {
-      console.log("readCookie -> userId < 0, redirecting to index.html");
-      window.location.href = "index.html";
-    }
+  window.readCookie = function() {
+        userId = -1;
+        let data = document.cookie;
+        console.log("readCookie -> current raw cookie data:", data);
+
+        let theyMatch = data.match(/(?:^|; )sessionData=([^;]*)/);
+        if (theyMatch) {
+                let cookieValue = decodeURIComponent(theyMatch[1]);
+                let splits = cookieValue.split(",");
+                        for (let i = 0; i < splits.length; i++) {
+                                let [key, value] = splits[i].trim().split("=");
+                                        if (key === "userId") userId = parseInt(value.trim());
+                                        else if (key === "username") username = value.trim();
+                                        else if (key === "password") password = value.trim();
+                        }
+        }
+
+        console.log("After parse, userId =", userId);
+        if (userId < 1) {
+                console.log("readCookie -> userId < 0, redirecting to index.html");
+        window.location.href = "index.html";
+        }
   }
 
   window.doLogout = function() {
-    console.log("Logging out...");
-    userId = 0;
-    firstName = "";
-    lastName = "";
-    // Invalidate cookie
-    document.cookie =
-      "firstName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    document.cookie =
-      "lastName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    window.location.href = "index.html";
-  }
+        console.log("Logging out...");
+        userId = 0;
+        username = "";
+        password = "";
+
+        document.cookie = "sessionData=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        window.location.href = "index.html";
+        }
+
+        */
+  window.saveSession = function() {
+        sessionStorage.setItem("id", userId);
+        sessionStorage.setItem("username", loginName);
+        sessionStorage.setItem("password", loginPassword);
+        console.log("Session saved: userId =", sessionStorage.getItem("id"), " username =", sessionStorage.getItem("username"));
+  };
+
+  window.readSession = function() {
+        userId = parseInt(sessionStorage.getItem("id")) || -1;
+        loginName = sessionStorage.getItem("username") || "";
+        loginPassword = sessionStorage.getItem("password") || "";
+
+        console.log("Session read: userId =", sessionStorage.getItem("id"));
+
+        if (userId < 1) {
+                console.log("Invalid session, redirecting...");
+                window.location.href = "index.html";
+        }
+  };
+
+  window.doLogout = function() {
+        console.log("Logging out...");
+        sessionStorage.clear();
+        window.location.href = "index.html";
+  };
+
+
+
   // -------------- ADD CONTACT --------------------
-window.createContact = function() {
+  window.createContact = function() {
     // Get the input values for the new contact
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
@@ -179,7 +196,7 @@ window.createContact = function() {
 
     // Create a data object to send to the server
     const contactData = {
-      user_id: userId, // User's unique ID (to associate the contact)
+      user_id: sessionStorage.getItem("id"), // User's unique ID (to associate the contact)
       name: name, // First name of the contact
       email: email, // Phone number of the contact
     };
@@ -204,7 +221,8 @@ window.createContact = function() {
           alert("Error: " + jsonResponse.error);
         } else {
           alert("Contact created successfully!");
-          loadContacts(); // Reload contacts list after adding a new contact
+                window.location.href = "Contacts.html";
+      //    loadContacts();  Reload contacts list after adding a new contact
         }
       })
       .catch((error) => {
@@ -217,7 +235,7 @@ window.createContact = function() {
   // ----------- DELETE CONTACT --------------
   window.deleteContact = function(contactId) {
     // Ensure that user is logged in by checking userId
-    if (userId <= 0) {
+    if (userId < 0) {
       alert("You need to log in to delete contacts.");
       return;
     }
@@ -232,12 +250,14 @@ window.createContact = function() {
 
     // Create a data object to send to the server
     const contactData = {
-      user_id: userId, // The user's ID to verify ownership
+      user_id: sessionStorage.getItem("id"), // User's unique ID (to associate the contact)
       id: contactId, // The contact's ID to be deleted
     };
 
     // Convert the data object to JSON format
     const jsonPayload = JSON.stringify(contactData);
+
+        console.log(jsonPayload);
 
     // Define the URL to send the request to
     const url = urlBase + "/removeContact." + extension;
@@ -266,8 +286,17 @@ window.createContact = function() {
   }
   // ---------------- LOAD CONTACTS ---------------------------------
   window.loadContacts = function() {
+    let userId = sessionStorage.getItem("id"); // Retrieve userId from session storage
+
+    if (!userId || userId < 1) {
+        console.log("Invalid session, redirecting...");
+        window.location.href = "index.html";
+        return;
+    }
+
     let url = urlBase + "/loadContacts." + extension;
     let jsonPayload = JSON.stringify({ user_id: userId });
+    console.log(jsonPayload);
 
     fetch(url, {
       method: "POST",
@@ -288,12 +317,10 @@ window.createContact = function() {
           let row = document.createElement("tr");
 
           row.innerHTML = `
-                <td>${contact.first_name}</td>
-                <td>${contact.last_name}</td>
-                <td>${contact.phone}</td>
+                <td>${contact.name}</td>
                 <td>${contact.email}</td>
                 <td>
-                <button class="edit-btn" onclick="editContact(${contact.id})">Edit</button>
+                <button class="edit-btn" onclick="window.location.href='EditContact.html?id=${contact.id}'">Edit</button>
                 <button class="delete-btn" onclick="deleteContact(${contact.id})">Delete</button>
                 </td>
 
@@ -304,7 +331,7 @@ window.createContact = function() {
 
         if (jsonResponse.results.length === 0) {
           let noResultsRow = document.createElement("tr");
-          noResultsRow.innerHTML = `<td colspan="5" style="text-align: center;">No contacts found</td>`;
+          noResultsRow.innerHTML = `<td colspan="3" style="text-align: center;">No contacts found</td>`;
           contactList.appendChild(noResultsRow);
         }
       })
@@ -314,9 +341,12 @@ window.createContact = function() {
       });
   }
 
+  // ----------------------- Update Contact ------------------------------
   window.UpdateContact = function(contactData, row) {
     let url = urlBase + "/editContact." + extension;
     let jsonPayload = JSON.stringify(contactData);
+
+        console.log(jsonPayload);
 
     fetch(url, {
       method: "POST",
@@ -331,9 +361,7 @@ window.createContact = function() {
         } else {
           alert("You just updated your contact!");
           row.innerHTML = `
-          <td>${contact.first_name}</td>
-          <td>${contact.last_name}</td>
-          <td>${contact.phone}</td>
+          <td>${contact.name}</td>
           <td>${contact.email}</td>
           <td>
           <button class="edit-btn" onclick="editContact(${contact.id})">Edit</button>
@@ -355,11 +383,10 @@ window.createContact = function() {
       });
   }
 
-  window.editContact = function(row, contact) {
-    row.innerHTML = `
-    <td><input type = "text" class = "edit-first" value="${contact.first_name}"></td>
-    <td><input type = "text" class = "edit-last" value="${contact.last_name}"></td>
-    <td><input type = "text" class = "edit-phone" value="${contact.phone}"></td>
+ // -------------------------- Edit (Wraps Update) ------------------
+  window.editContact = function(contact) {
+    const row.innerHTML = `
+    <td><input type = "text" class = "edit-name" value="${contact.name}"></td>
     <td><input type = "text" class = "edit-email" value="${contact.email}"></td>
     <td>
       <button class="save-btn">Confirm</button>
@@ -371,19 +398,13 @@ window.createContact = function() {
     const confirmButton = row.querySelector(".save-btn");
     confirmButton.addEventListener("click", function () {
       //The buttons below is saving the data representing the updated changes which will be changed to proper JSON later in finalUpdate const structure
-      const updatedFirst = row.querySelector(".edit-first").value;
-      const updatedLast = row.querySelector(".edit-last").value;
-      const updatedPhoneNumber = row.querySelector(".edit-phone").value;
+      const updatedName = row.querySelector(".edit-name").value;
       const updatedEmailAddr = row.querySelector(".edit-email").value;
-      const first_And_Last_Name = updatedFirst + " " + updatedLast;
       const finalUpdate = {
         id: contact.id,
         user_id: userId,
-        first_name: updatedFirst,
-        last_name: updatedLast,
-        phone: updatedPhoneNumber,
+        name: updatedName,
         email: updatedEmailAddr,
-        full_name: first_And_Last_Name,
       };
       UpdateContact(finalUpdate, row);
     });
@@ -418,6 +439,10 @@ window.createContact = function() {
     SearchBar();
   });
   // Optionally expose readCookie/doLogout to window if you call them from HTML
-  window.readCookie = readCookie;
-  window.doLogout = doLogout;
+  //window.readCookie = readCookie;
+  //window.doLogout = doLogout;
+  window.onLoad = function() {
+        readSession();
+  }
+
 });
