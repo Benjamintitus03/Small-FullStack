@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
+  const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
   const extension = "php";
 
   let userId = 0;
@@ -94,6 +94,16 @@ const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
       });
   };
 
+  // ------------------- SHOW PASSWORD ----------------------
+  window.displayPw = function() {
+        var x = document.getElementById("loginPassword");
+        if (x.type === "password") {
+                x.type = "text";
+        } else {
+                x.type = "password";
+        }
+   }
+
   // ------------------- COOKIE FUNCTIONS -------------------
   window.saveCookie = function() {
     let minutes = 20;
@@ -156,20 +166,16 @@ const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
     window.location.href = "index.html";
   }
   // -------------- ADD CONTACT --------------------
-  window.createContact = function() {
+window.createContact = function() {
     // Get the input values for the new contact
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
     const email = document.getElementById("email").value;
 
-    const name = `S{firstName} ${lastName}`;
+    const name = `${firstName} ${lastName}`;
 
 
     // Ensure that user is logged in by checking userId
-    if (userId <= 0) {
-      alert("You need to log in to add contacts.");
-      return;
-    }
 
     // Create a data object to send to the server
     const contactData = {
@@ -177,6 +183,8 @@ const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
       name: name, // First name of the contact
       email: email, // Phone number of the contact
     };
+
+        console.log(contactData);
 
     // Convert the data object to JSON format
     const jsonPayload = JSON.stringify(contactData);
@@ -206,7 +214,6 @@ const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
         );
       });
   }
-
   // ----------- DELETE CONTACT --------------
   window.deleteContact = function(contactId) {
     // Ensure that user is logged in by checking userId
