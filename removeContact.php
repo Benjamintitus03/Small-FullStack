@@ -63,6 +63,12 @@
 		header('Content-type: application/json');
 		echo $obj;
 	}
+    // helper for returning json on success
+	function returnWithSuccess( $msg )
+	{
+		$retValue = '{"msg":"' . $msg . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
 	
     // for returning errors with apis
 	function returnWithError( $err )
