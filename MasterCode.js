@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const urlBase = "http://proctest.titusknights.help/LAMPAPI";
+  const urlBase = "http://proctest.apfirstonline.online/LAMPAPI";
   const extension = "php";
 
   let userId = 0;
@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let lastName = "";
 
   // ------------------- LOGIN -------------------
+
+  function () {
   try {
     // If the page has an element with id="doLogin", attach the click event
     const loginButton = document.getElementById("loginButton");
@@ -51,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
             lastName = jsonObject.lastName;
             saveCookie();
 
-            // Redirect to AddContact.html
+            // Redirect to Contacts.html
             // (Ensure that file actually exists in the same folder)
-            window.location.href = "AddContact.html";
+            window.location.href = "Contacts.html";
           })
           .catch((err) => {
             document.getElementById("loginResult").innerHTML =
@@ -64,10 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
   } catch (err) {
     console.log("doLogin setup encountered error:", err);
   }
+};
 
   // ------------------- REGISTRATION -------------------
   // This function can be called from a "Register" page or same page, etc.
-  window.doRegister = function () {
+  function () {
     let username = document.getElementById("registerName").value;
     let password = document.getElementById("registerPassword").value;
 
@@ -101,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           alert(jsonObject.message || "Registered successfully!");
           // If there's a new page for registration success
-          window.location.href = "Contacts.html";
+          window.location.href = "index.html";
         }
       })
       .catch((err) => {
@@ -131,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.cookie ="firstName="+firstName+",lastName="+lastName+
     ",userId="+userId + ";expires=" + date.toGMTString() + ";path=/"; // path ensures the cookie is valid site-wide
   }
+  
   function readCookie() {
     userId = -1;
     let data = document.cookie;
@@ -157,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "index.html";
     }
   }
+  
   function doLogout() {
     console.log("Logging out...");
     userId = 0;
