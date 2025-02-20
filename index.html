@@ -3,21 +3,21 @@
   <head>
     <title>Contact Manager</title>
     <!-- Reference the MasterCode.js file here. Using defer ensures it runs after parsing. -->
-    <script type="text/javascript" src="MasterCode.js" defer></script>
-    <link href="login.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/MasterCode.js" defer></script>
+    <link href="./css/login.css" rel="stylesheet">
   </head>
   <body>
     <div class="form-container">
       <h2>Contact Manager</h2>
-      <form id="loginForm">
+      <form id="loginForm" action="index.html" method="POST">
         <label>Username:</label>
-        <input type="text" id="loginName" placeholder="Username" required>
+        <input type="text" id="loginName" name="loginName" placeholder="Username" required>
 
         <label>Password:</label>
-        <input type="password" id="loginPassword" placeholder="Password" required>
+        <input type="password" id="loginPassword" name= "loginPassword" placeholder="Password" required>
 
         <!-- Using type="button" prevents the form from auto-submitting -->
-        <button id="loginButton" type="button" class="float-left submit-button">Login</button>
+        <button id="loginButton" type="button" onclick="doLogin()">Login</button>
       </form>
       <div id="loginResult"></div>
       <div class="switch-form">
