@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ------------------- LOGIN -------------------
 
-  function () {
+  doLogin() = function () {
   try {
     // If the page has an element with id="doLogin", attach the click event
     const loginButton = document.getElementById("loginButton");
