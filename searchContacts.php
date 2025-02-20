@@ -15,9 +15,9 @@
 	else
 	{
         // find all contacts similar under the user_id
-		$stmt = $conn->prepare("SELECT name, email from contacts where (name like ? OR email like ?) and UserID=?");
+		$stmt = $conn->prepare("SELECT name, email from contacts where (name like ? OR email like ?) and user_id=?");
 		$contactName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ssi", $contactName, $email, $inData["userId"]);
+		$stmt->bind_param("ssi", $contactName, $email, $inData["userID"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -62,7 +62,7 @@
 	// returns an error and an error message specified
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 
