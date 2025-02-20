@@ -1,38 +1,33 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-  <title>Edit Contact</title>
-  <script src="MasterCode.js" defer></script>
-  <link href="EditContactCSS.css" rel="stylesheet">
-</head>
-
-<body onload="readCookie()">
-  <div class="add-contact">
-    <h2>Edit Existing Contact</h2>
-    <form>
-      <div class="name">
-        <label for="fname">First Name:</label>
-        <input type="text" id="fname" required>
-        <br>
-        <label for="lname">Last Name:</label>
-        <input type="text" id="lname" required>
-      </div>
-
-      <div class="info">
-        <label for="phone">Phone Number:</label>
-        <input type="text" id="phone" pattern="[0-9]{10}">
-        <br>
-        <label for="email">Email Address:</label>
-        <input type="text" id="email">
-      </div>
-
-      <div class="buttons">
-        <button type="button" id="confirmButtonEdit" class="float-left submit-button">Confirm</button>
-        <button type="button" id="cancelButtonEdit" class="float-left submit-button">Cancel</button>
-      </div>
-    </form>
-  </div>
-</body>
-
+  <head>
+    <title>Edit Contact</title>
+    <script src="MasterCode.js" defer></script>
+    <link href="EditContactCSS.css" rel="stylesheet">
+  </head>
+  <body onload="readCookie()">
+    <div class="add-contact">
+      <h2>Edit Existing Contact</h2>
+      <form>
+        <div class="name">
+          <label for="fname">First Name:</label>
+          <input type="text" id="fname" required>
+          <br>
+          <label for="lname">Last Name:</label>
+          <input type="text" id="lname" required>
+        </div>
+        <div class="info">
+          <label for="phone">Phone Number:</label>
+          <input type="text" id="phone" pattern="[0-9]{10}">
+          <br>
+          <label for="email">Email Address:</label>
+          <input type="text" id="email">
+        </div>
+        <div class="buttons">
+          <button type="button" id="confirmButtonEdit" class="float-left submit-button">Confirm</button>
+          <button type="button" id="cancelButtonEdit" class="float-left submit-button">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
